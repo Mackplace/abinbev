@@ -1,0 +1,9 @@
+[
+  {"title":"VMN","subtitle":"US$, en miles","ranges":[150,225,300],"measures":[220,270],"markers":[100]},
+  {"title":"Suma de Costos","subtitle":"US$, en miles","ranges":[150,225,300],"measures":[210,300],"markers":[150]},
+  {"title":"Estabilidad","subtitle":"Porcentaje, average","ranges":[0,5,1],"measures":[3,10],"markers":[5]},
+  {"title":"Transacciones","subtitle":"Cantidad","ranges":[14000,20000,25000],"measures":[10000,16500],"markers":[15000]},
+  {"title":"Sistemas","subtitle":"0 a 10","ranges":[0,10],"measures":[5,10],"markers":[6]},
+  {"title":"Reglas","subtitle":"0 a 10","ranges":[0,10],"measures":[5,10],"markers":[6]},
+  {"title":"Estandarización","subtitle":"0 a 10","ranges":[0,10],"measures":[5,10],"markers":[6]}
+]

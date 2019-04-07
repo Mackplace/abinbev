@@ -26,4 +26,12 @@ $('nav a').click(function(e) {
     $('.settings').removeClass('noshow');
     $('.rightbox').children().not('.settings').addClass('noshow');
   }
+  else if(this.id === 'settings1') {
+    $('.settings1').removeClass('noshow');
+    $('.rightbox').children().not('.settings1').addClass('noshow');
+  }
+  else if(this.id === 'settings2') {
+    $('.settings2').removeClass('noshow');
+    $('.rightbox').children().not('.settings2').addClass('noshow');
+  }
 });
