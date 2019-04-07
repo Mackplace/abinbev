@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Priorization & Viability Tool</title>
+  
+  
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.0.10/css/all.css'>
+
+
+      <style>
+      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+      @import url("https://fonts.googleapis.com/css?family=Nunito:400,900|Montserrat|Roboto");
+
+
+body{
+
+background: linear-gradient(268deg, #331d0c, #971b1e, #e02124, #f7951d);
+background-size: 800% 800%;
+
+-webkit-animation: background-AbInBev 26s ease infinite;
+-moz-animation: background-AbInBev 26s ease infinite;
+animation: background-AbInBev 26s ease infinite;
+}
+
+@-webkit-keyframes background-AbInBev {
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
+@-moz-keyframes background-AbInBev {
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
+@keyframes background-AbInBev {
+    0%{background-position:0% 51%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 51%}
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  fill: orange;
+}
+
+.solidArc:hover {
+  fill: orangered ;
+}
+
+.solidArc {
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.aster-score { 
+  line-height: 1;
+  font-weight: bold;
+  font-size: 500%;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+
+.container {
+  border-style: solid;
+  border-radius: 20px;
+  background: #e8eef2;
+  width: 1000px;
+  height: 700px;
+  margin: 0 auto;
+  position: relative;
+  margin-top: 10%;
+  box-shadow: 2px 5px 20px rgba(119, 119, 119, 0.5);
+}
+
+.logo {
+  float: right;
+  margin-right: 12px;
+  margin-top: 12px;
+  font-family: "Nunito Sans", sans-serif;
+  color: #3DBB3D;
+  font-weight: 900;
+  font-size: 1.5em;
+  letter-spacing: 1px;
+}
+
+.CTA {
+  width: 80px;
+  height: 40px;
+  right: -20px;
+  bottom: 0;
+  margin-bottom: 90px;
+  position: absolute;
+  z-index: 1;
+  background: #971B1E;
+  font-size: 1em;
+  transform: rotate(-90deg);
+  transition: all .5s ease-in-out;
+  cursor: pointer;
+}
+.CTA h1 {
+  color: #FFFFFF;
+  margin-top: 10px;
+  margin-left: 9px;
+}
+.CTA:hover {
+  background: #3FB6A8;
+  transform: scale(1.1);
+}
+
+.leftbox {
+  
+  border-radius: 15px;
+  border-width: 2px;
+  float: left;
+  top: -5%;
+  left: 5%;
+  position: absolute;
+  width: 15%;
+  height: 110%;
+  background: #971B1E;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0);
+  border-left-color: #F7951D; 
+}
+
+nav a {
+  list-style: none;
+  padding: 35px;
+  color: #FFFFFF;
+  font-size: 1.1em;
+  display: block;
+  transition: all .3s ease-in-out;
+}
+nav a:hover {
+  color: #FFF200  ;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+nav a:first-child {
+  margin-top: 7px;
+}
+
+.active {
+  color: #E02124;
+}
+
+.rightbox {
+  float: right;
+  width: 60%;
+  height: 100%;
+}
+
+.profile, .payment, .subscription, .privacy, .settings {
+  transition: opacity .5s ease-in;
+  position: absolute;
+  width: 70%;
+}
+
+h1 {
+  font-family: "Montserrat", sans-serif;
+  color: #971B1E;
+  font-size: 1em;
+  margin-top: 40px;
+  margin-bottom: 35px;
+}
+
+h2 {
+  color: #777777;
+  font-family: "Roboto", sans-serif;
+  width: 80%;
+  text-transform: uppercase;
+  font-size: 8px;
+  letter-spacing: 1px;
+  margin-left: 2px;
+}
+
+p {
+
+
+  border-width: 1px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #331d0c, #E02124) 1 0%;
+  border-top: 0;
+  width: 80%;
+  font-family: "Montserrat", sans-serif;
+  font-size: .7em;
+  padding: 7px 0;
+  color: #331d0c;
+
+}
+
+
+
+span {
+  font-size: .5em;
+  color: #777777;
+}
+
+.btn {
+  float: right;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+  font-size: 10px;
+  border: none;
+  color: #331d0c;
+}
+
+.btn:hover {
+  text-decoration: underline;
+  font-weight: 900;
+}
+
+input {
+  border: 1px solid #dddddd;
+  font-family: "Roboto", sans-serif;
+  padding: 2px;
+  margin: 0;
+}
+
+
+
+.privacy h2 {
+  margin-top: 25px;
+}
+
+.settings h2 {
+  margin-top: 25px;
+}
+
+.noshow {
+  opacity: 0;
+}
+
+footer {
+  position: absolute;
+  width: 20%;
+  bottom: 0;
+  right: -20px;
+  text-align: right;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: "Roboto", sans-serif;
+}
+footer p {
+  border: none;
+  padding: 0;
+}
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+footer a:hover {
+  color: #7d7d7d;
+}
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+
+</head>
+
+<body>
+
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+
+
+  <div class="container">
+
+  <div id="logo">
+
+   <img src="logo.png" style="margin-left: 860px; width:150px;display:block" />
+  
+  </div>
+  <div class="leftbox">
+    <nav>
+      <a id="profile" class="active"><i class="fa fa-user"></i></a>
+      <a id="payment"><i class="fa fa-credit-card"></i></a>
+      <a id="subscription"><i class="fa fa-tv"></i></a>
+      <a id="privacy"><i class="fa fa-tasks"></i></a>
+      <a id="settings"><i class="fa fa-cog"></i></a>
+    </nav>
+  </div>
+  <div class="rightbox">
+
+
+    <div class="profile">
+      <h1>Personal Info</h1>
+      <h2>Full Name</h2>
+      <p contenteditable="true"></p>
+      <h2>Birthday</h2>
+      <p></p>
+      <h2>Gender</h2>
+      <p></p>
+      <h2>Email</h2>
+      <p>example@abinbev.com <button class="btn">update</button></p>
+      <h2>Password </h2>
+      <p> <button class="btn">Change</button></p>
+    </div>
+    
+    <div class="payment noshow">
+      <h1>Process Info</h1>
+      <h2>Area</h2>
+      <p><button class="btn">update</button></p>
+      <h2>Process Name</h2>
+      <p><button class="btn">change</button></p>
+      <h2>Process Description</h2>
+      <p></p>
+      <h2>Affected Areas</h2>
+      <p><button class="btn">view</button></p>
+      <h2>Involved Employess</h2>
+      <p><input type="text" placeholder="Enter"></input> <button class="btn">Redeem</button></p>
+    </div>
+
+    <div class="subscription noshow">
+      <h1>Priorization</h1>
+      <h2>Valor monetario de negocio</h2>
+      <p>$<button class="btn">pay now</button></p>
+      <h2>Suma de costos</h2>
+      <p>$<span> includes tax</span></p>
+      <h2>Estabilidad de proceso</h2>
+      <p><button class="btn">change plan</button></p>
+      <h2>Numero de transacciones por día</h2>
+      <p><button class="btn">manage</button></p>
+      <h2>Basado en múltiples sistemas</h2>
+      <p>SI/NO</p>
+      <h2>Basado en reglas</h2>
+      <p>SI/NO</p>
+      <h2>Está estandarizado?</h2>
+      <p>SI/NO</p>
+    </div>
+
+    <div class="privacy noshow">
+       <h1>Viability</h1>
+      <h2>Process Name<button class="btn">sync</button></h2>
+      <p contenteditable="true">Holiii</p>
+      <h2>Process Cost<button class="btn">hold</button></h2>
+      <p></p>
+      <h2>Process 2 Name<button class="btn">cancel</button></h2>
+      <p></p>
+      <h2>Process 2 Cost<button class="btn">Manage Devices</button></h2>
+      <p></p>
+      <h2>Comments<button class="btn">get $10</button></h2>
+   <p></p>
+    </div>
+
+ <div id="grafica" class="settings noshow">
+  
+<H1>GRÁFICA DE PRIORIZACIÓN DE PROCESOS POR ÁREA</H1>
+<H2>La presente gráfica muestra el coeficiente de priorización de cada proceso evaluado en un área de negocio establecida</H2>
+  </div>
+    
+  </div>
+</div>
+
+
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
+  <script src="draw.js" type="text/javascript"></script>
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
